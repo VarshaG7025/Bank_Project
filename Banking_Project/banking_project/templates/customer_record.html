@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+    <div class="container">
+        <div class="row">
+         <div class="col-md-5 offset-md-3">
+                <h1 class="card-title" style="font-weight: bold;">Customer Form</h1>
+                <hr>
+                <div class="card" style="background-color: rgba(255, 255, 255, 0.5); box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+                    <div class="card-body" style="font-weight: bold;">
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for fm in form %}
+                            <div class="form-group" style="font-weight: bold;">
+                                {{ fm.label_tag }} {{ fm }} <small class="text-danger">{{ fm.errors|striptags }}</small>
+                            </div>
+                            {% endfor %}
+                            <br>
+                            <button type="submit" class="btn btn-primary" style="font-weight: bold;">Submit</button>
+                            {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                    <p class="alert alert-danger my-3" style="font-weight: bold;">{{ error }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% include 'login.html' %}
+{% endif %}
+{% endblock %}
